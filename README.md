@@ -1,3 +1,11 @@
+# Estrateg Mailing
+
+This project have the purpose to work with the communication with the clients, the contracts and the mailing service.
+
+For this, the projet uses electron, vite and swc to compile.
+
+
+----------------------------------------------------------------------
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
