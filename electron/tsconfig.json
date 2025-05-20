@@ -1,0 +1,19 @@
+{
+  "include": ["**/*"],
+  "compilerOptions": {
+    "types": ["../types.d.ts"],
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "allowJs": true,
+    "lib": ["ES2020", "DOM"], 
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "outDir": "../dist-electron",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "rewriteRelativeImportExtensions": true
+  }
+}
