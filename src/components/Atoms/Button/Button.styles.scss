@@ -1,0 +1,42 @@
+@mixin button-styles($colorScheme) {
+  border-radius: 16px;
+
+  padding: 8px 16px;
+  width: fit-content;
+
+  font-family: Figtree, Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: var(--font-sizeSM);
+
+  transition: color 0.3s, background-color 0.3s, border 0.3s;
+
+  @if $colorScheme == 'dark' {
+    border: 1px solid var(--primary500);
+    background-color: var(--primary500);
+    color: var(--light-text);
+
+    &:hover {
+      background-color: var(--primary300);
+    }
+  }
+
+  @if $colorScheme == 'light' {
+    border: 1px solid var(--primary500);
+    background-color: var(--tertiary100);
+    color: var(--dark-text);
+
+    &:hover {
+      background-color: var(--tertiary200);
+    }
+  }
+
+  cursor: pointer;
+}
+
+.dark-button {
+  @include button-styles('dark');
+}
+
+.light-button {
+  @include button-styles('light');
+}
