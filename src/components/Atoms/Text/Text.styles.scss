@@ -1,0 +1,53 @@
+@mixin text-styles($colorScheme, $role) {
+  margin: 0;
+  padding: 0;
+
+  font-family: Figtree, Arial, Helvetica, sans-serif;
+  font-size: var(--font-sizeSM);
+
+  @if $role == 'text' {
+    @if $colorScheme == 'dark' {
+      color: var(--dark-text);
+    }
+
+    @if $colorScheme == 'light' {
+      color: var(--light-text);
+    }
+  }
+
+  @if $role == 'link' {
+    @if $colorScheme == 'dark' {
+      color: var(--medium-text);
+      transition: color 200ms;
+
+      &:hover {
+        color: var(--regular-text);
+      }
+    }
+
+    @if $colorScheme == 'light' {
+      color: var(--regular-text);
+      transition: color 200ms;
+
+      &:hover {
+        color: var(--medium-text);
+      }
+    }
+  }
+}
+
+.dark-link {
+  @include text-styles('dark', 'link');
+}
+
+.light-link {
+  @include text-styles('light', 'link');
+}
+
+.dark-text {
+  @include text-styles('dark', 'text');
+}
+
+.light-text {
+  @include text-styles('light', 'text');
+}
