@@ -1,0 +1,9 @@
+@use 'fonts/figtree/figtree';
+@use 'fonts/ubuntu/ubuntu';
+
+@mixin sizes {
+  --font-sizeSM: 16px;
+  --font-sizeMD: 24px;
+  --font-sizeLG: 36px;
+  --font-sizeXL: 44px;
+}
