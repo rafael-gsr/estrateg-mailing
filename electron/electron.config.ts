@@ -6,6 +6,7 @@ const createWindow = () => {
   const window = new BrowserWindow({
     width: 1024,
     height: 800,
+    icon: 'src/assets/estrateg-mailing-logo.png',
     webPreferences: {
       preload: getPreloadPath(),
       nodeIntegration: false,
@@ -43,5 +44,5 @@ app.whenReady().then(() => {
     console.log('loggedData')
   })
 
-  onHandle('logInvoke', () => 'invoke test' )
+  onHandle('logInvoke', () => 'invoke test')
 })
