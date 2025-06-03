@@ -1,0 +1,22 @@
+.sidebar_item {
+  background-color: var(--primary300);
+  padding: 8px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  & > h2,
+  h3,
+  p,
+  span {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+  }
+}
