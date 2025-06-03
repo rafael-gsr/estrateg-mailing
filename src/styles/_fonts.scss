@@ -1,5 +1,5 @@
-@use 'fonts/figtree/figtree';
-@use 'fonts/ubuntu/ubuntu';
+@use './fonts/figtree/figtree';
+@use './fonts/ubuntu/ubuntu';
 
 @mixin sizes {
   --font-sizeSM: 16px;

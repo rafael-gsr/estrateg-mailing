@@ -1,0 +1,32 @@
+@use 'styles/colors';
+@use 'styles/fonts';
+
+.application-base {
+  @include fonts.sizes;
+
+  padding: 0;
+  margin: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--background);
+
+  font-family: Figtree, Arial, Helvetica, sans-serif;
+  color: var(--light-text);
+}
+
+.light-theme {
+  @include colors.light-theme;
+}
+
+.dark-theme {
+  @include colors.dark-theme;
+}
+
+#root {
+  height: 100%;
+}
