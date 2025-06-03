@@ -1,0 +1,8 @@
+.base_template {
+  display: flex;
+  flex-direction: row;
+
+  &__content {
+    padding: 16px;
+  }
+}
