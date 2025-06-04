@@ -6,42 +6,11 @@ import SideBarItem from '../../Atoms/SideBarItem'
 import Title from '../../Atoms/Title'
 
 import './SideBarMenu.styles.scss'
-import { Link } from 'react-router'
-import { SidebarItemProps, SideBarMenuProps } from './SideBarMenu.types'
-import { sidebarItems } from './SideBarMenu.config'
+import { SideBarMenuProps } from './SideBarMenu.types'
+import { generateSidebarItems, sidebarItems } from './SideBarMenu.config'
 
 const SideBarMenu = ({ children }: SideBarMenuProps) => {
-  const [openSidebar, setOpenSidebar] = useState<boolean>()
-
-  function sidebarItemFactory({
-    path,
-    label,
-    IconComponent,
-  }: SidebarItemProps) {
-    return (
-      <SideBarItem>
-        <Link
-          to={path}
-          viewTransition
-          className='sidebar_menu__item__link'
-        >
-          <IconComponent className='sidebar_menu__item__icon' />
-          {openSidebar ? label : ''}
-        </Link>
-      </SideBarItem>
-    )
-  }
-
-  function generateSidebarItems(itemsList: SidebarItemProps[]) {
-    return itemsList.map((item) =>
-      sidebarItemFactory({
-        path: item.path,
-        IconComponent: item.IconComponent,
-        label: item.label,
-      })
-    )
-  }
-
+  const [openSidebar, setOpenSidebar] = useState<boolean>(false)
   return (
     <>
       <div className='sidebar_placeholder' />
@@ -67,7 +36,7 @@ const SideBarMenu = ({ children }: SideBarMenuProps) => {
           )}
         </SideBarItem>
 
-        {generateSidebarItems(sidebarItems)}
+        {generateSidebarItems(sidebarItems, openSidebar)}
 
         {children}
       </nav>
