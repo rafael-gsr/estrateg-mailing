@@ -1,0 +1,66 @@
+.input_container {
+  position: relative;
+  z-index: 0;
+
+  background-color: var(--gray400);
+
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 8px;
+
+  label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 12px;
+
+    transition: all 250ms ease-in-out;
+    color: var(--light-text);
+    font-size: var(--font-sizeMD);
+  }
+
+  input {
+    height: auto;
+    width: auto;
+
+    outline: none;
+    border: none;
+    box-shadow: none;
+
+    background: none;
+    padding: 8px 0 0 0;
+    transition: all 250ms ease-in-out;
+    border-bottom: 1px solid var(--gray300);
+
+    font-size: var(--font-sizeMD);
+    color: var(--light-text);
+
+    transition: all 250ms ease-in-out;
+
+    &:focus {
+      border-bottom: 1px solid var(--light-text);
+    }
+
+    &:focus ~ label,
+    &:not(:placeholder-shown) ~ label {
+      top: 10px;
+      left: 12px;
+
+      color: var(--gray200);
+      font-size: var(--font-sizeSM);
+    }
+  }
+
+  &__error {
+    position: absolute;
+    right: 8px;
+    bottom: -16px;
+
+    margin: 0;
+
+    color: var(--error100);
+
+    font-size: var(--font-sizeSM);
+    text-shadow: 0 0 2px var(--error500);
+  }
+}
