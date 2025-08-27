@@ -1,0 +1,10 @@
+.create_edit_form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__buttons {
+    display: flex;
+    gap: 8px;
+  }
+}

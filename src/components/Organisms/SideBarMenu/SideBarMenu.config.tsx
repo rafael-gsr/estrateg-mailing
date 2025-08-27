@@ -17,7 +17,7 @@ function sidebarItemFactory(
   isOpen: boolean
 ) {
   return (
-    <SideBarItem>
+    <SideBarItem key={label}>
       <Link
         to={path}
         viewTransition
