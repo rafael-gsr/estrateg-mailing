@@ -1,17 +1,13 @@
 function App() {
-  window.electronMethods.logData()
-  window.electronMethods
-    .logInvoke()
-    .then((response: string) => console.log(response))
-
+  console.log("app exists");
   return (
     <>
       <p>Home Page</p>
-      <a href='/clients'>clients</a>
+      <a href="/clients">clients</a>
       <br />
-      <a href='/dashboards'>dashboards</a>
+      <a href="/dashboards">dashboards</a>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
