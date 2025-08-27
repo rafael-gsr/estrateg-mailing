@@ -15,41 +15,41 @@
 }
 
 .dark-h1 {
-  @include title-styles('dark', var(--font-sizeXL));
+  @include title-styles('dark', var(--font-sizeXXL));
 }
 
 .dark-h2 {
-  @include title-styles('dark', var(--font-sizeLG));
+  @include title-styles('dark', var(--font-sizeXL));
 }
 
 .dark-h3 {
-  @include title-styles('dark', var(--font-sizeMD));
+  @include title-styles('dark', var(--font-sizeLG));
 }
 
 .dark-h4 {
-  @include title-styles('dark', var(--font-sizeSM));
+  @include title-styles('dark', var(--font-sizeMD));
 }
 
 .dark-h5 {
-  @include title-styles('dark', var(--font-sizeSM));
+  @include title-styles('dark', var(--font-sizeMD));
 }
 
 .light-h1 {
-  @include title-styles('light', var(--font-sizeXL));
+  @include title-styles('light', var(--font-sizeXXL));
 }
 
 .light-h2 {
-  @include title-styles('light', var(--font-sizeLG));
+  @include title-styles('light', var(--font-sizeXL));
 }
 
 .light-h3 {
-  @include title-styles('light', var(--font-sizeMD));
+  @include title-styles('light', var(--font-sizeLG));
 }
 
 .light-h4 {
-  @include title-styles('light', var(--font-sizeSM));
+  @include title-styles('light', var(--font-sizeMD));
 }
 
 .light-h5 {
-  @include title-styles('light', var(--font-sizeSM));
+  @include title-styles('light', var(--font-sizeMD));
 }
