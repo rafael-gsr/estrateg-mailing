@@ -1,16 +1,16 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import serverConfig from './electron/constants/serverConfig'
+import react from "@vitejs/plugin-react-swc";
+import { defineConfig } from "vite";
+import serverConfig from "./electron/config/server.config.ts";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: "./",
   build: {
-    outDir: 'dist-react',
+    outDir: "dist-react",
   },
   server: {
     port: parseInt(serverConfig.dev.port),
     strictPort: true,
-  }
-})
+  },
+});
