@@ -1,1 +1,9 @@
-export type AvaliableKeys = "logData" | "logInvoke" | "new-window";
+export type AvaliableKeys =
+  | 'logData'
+  | 'logInvoke'
+  | 'new-window'
+  | 'createContract'
+  | 'updateContract'
+  | 'updateDatabase'
+  | 'deleteContract'
+  | 'getContracts'
