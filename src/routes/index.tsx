@@ -1,9 +1,9 @@
-import { createBrowserRouter } from 'react-router'
+import { createHashRouter } from 'react-router'
 import Clients from '../components/Pages/Clients'
 import Dashboards from '../components/Pages/Dashboards'
 import Home from '../components/Pages/Home/Home'
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     children: [
