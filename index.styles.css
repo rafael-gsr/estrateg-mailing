@@ -1,3 +1,5 @@
+@import url(./src/styles/fonts/figtree/_figtree.scss);
+@import url(./src/styles/fonts/ubuntu/_ubuntu.scss);
 body,
 html {
   margin: 0;
