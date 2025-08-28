@@ -1,10 +1,31 @@
+import { FindOptions } from 'sequelize'
+
 type ElectronMethods = {
   logData: () => void
   logInvoke: () => Promise
+
+  createContract: (contract: Contract) => Promise<any>
+  updateContract: (newContract: Contract) => Promise<any>
+  getContracts: (options?: FindOptions) => Promise<any>
+  deleteContract: (id: string) => Promise<any>
+}
+
+type Contract = {
+  id?: string
+  companyName: string
+  activity: string
+  email: string
+  phone: string
+  dueDate: string
+  status: string
+  lastContact: string
+  observations?: string
 }
 
 type ElectronMethodsKeys = keyof ElectronMethods
 
-interface Window {
-  electronMethods: ElectronMethods,
-} 
+declare global {
+  interface Window {
+    api: ElectronMethods
+  }
+}
