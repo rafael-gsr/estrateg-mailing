@@ -29,16 +29,13 @@ export const Contract: ModelAttributes = {
   phone: {
     type: DataTypes.TEXT,
     validate: {
-      is: /(\(?\d{2}\)?)\s?(\d{5})-?(\d{4})/gi,
+      is: /^(([(])(0)?([1-9]{2})([)])|(0)?([1-9]{2}))(\s)?(9)?(\s)?(\d{4})([\s|-])?(\d{4})$/,
     },
   },
 
   dueDate: {
-    type: DataTypes.STRING,
+    type: DataTypes.NUMBER,
     allowNull: false,
-    validate: {
-      is: /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}).(\d{3})Z/gi,
-    },
   },
 
   observations: {
@@ -57,4 +54,4 @@ export const Contract: ModelAttributes = {
   },
 }
 
-export const Clients = {}
+export const Clients: ModelAttributes = {}

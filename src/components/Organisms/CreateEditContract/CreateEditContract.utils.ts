@@ -35,7 +35,7 @@ export const ContractSchema = z.object({
       }
     ),
   dueDate: z
-    .string({ message: defaultErrorMessages.dueDate })
+    .number({ message: defaultErrorMessages.dueDate })
     .min(1, defaultErrorMessages.dueDate),
   observations: z.string().optional(),
   status: z.string().optional(),

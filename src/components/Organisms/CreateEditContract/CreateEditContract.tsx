@@ -59,7 +59,7 @@ const CreateEditModal = ({
           <DatePicker
             format='DD/MM/YYYY'
             value={dayjs(value ?? null)}
-            onChange={(value) => onChange(value?.toISOString())}
+            onChange={(value) => onChange(value?.valueOf())}
             slotProps={{
               textField: {
                 error: !!error,
