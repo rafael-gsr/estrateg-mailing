@@ -1,41 +1,37 @@
-import { FindOptions } from "sequelize";
-import { connection } from "../database/connection.ts";
-import { Contract as ContractModel } from "../database/model.ts";
-import { Contract } from "../../types.ts";
+import { FindOptions } from 'sequelize'
+import { connection } from '../database/connection.ts'
+import { Contract as ContractModel } from '../database/Contracts.model.ts'
+import { Contract } from '../../types.ts'
 
 class Contracts {
-  private ContractModel;
+  private ContractModel
 
   constructor() {
-    connection.sync().then();
+    connection.sync().then()
 
-    this.ContractModel = connection.define("Contracts", ContractModel);
+    this.ContractModel = connection.define('Contracts', ContractModel)
   }
 
   getInstance() {
     if (this.ContractModel === undefined) {
       console.log(
-        "The connection is undefined, please initalize the Contracts class before getting the instance",
-      );
+        'The connection is undefined, please initalize the Contracts class before getting the instance'
+      )
 
-      return;
+      return
     }
 
-    return this.ContractModel;
+    return this.ContractModel
   }
 
-  async getAll() {
-    return await this.ContractModel.findAll({ order: [["dueDate", "DESC"]] });
-  }
-
-  async get(findOptions: FindOptions) {
-    return await this.ContractModel.findAll(findOptions);
+  async get(findOptions?: FindOptions) {
+    return await this.ContractModel.findAll(findOptions)
   }
 
   async create(contract: Contract) {
-    const createResponse = await this.ContractModel.create(contract);
+    const createResponse = await this.ContractModel.create(contract)
 
-    return createResponse;
+    return createResponse
   }
 
   async delete(id: string) {
@@ -43,9 +39,9 @@ class Contracts {
       where: {
         id: id,
       },
-    });
+    })
 
-    return deleteResponse;
+    return deleteResponse
   }
 
   async update(contract: Partial<Contract>) {
@@ -53,23 +49,23 @@ class Contracts {
       where: {
         id: contract.id,
       },
-    });
+    })
 
     if (findedObject !== null) {
-      const contractKeys = Object.keys(contract);
-      type TContractKeys = keyof typeof contract;
-      type TFindedObjectKeys = keyof typeof findedObject;
+      const contractKeys = Object.keys(contract)
+      type TContractKeys = keyof typeof contract
+      type TFindedObjectKeys = keyof typeof findedObject
 
       contractKeys.forEach((field) => {
         findedObject[field as TFindedObjectKeys] =
-          contract[field as TContractKeys];
-      });
+          contract[field as TContractKeys]
+      })
     }
 
-    findedObject?.save();
+    findedObject?.save()
 
-    return findedObject;
+    return findedObject
   }
 }
 
-export const ContractService = new Contracts();
+export const ContractService = new Contracts()

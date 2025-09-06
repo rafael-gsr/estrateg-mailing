@@ -23,6 +23,16 @@ export const defineContractsHandler = () => {
     }
   )
 
+  onHandle('getOverdueContracts', async () => {
+    const response = await ContractController.getOverdueContracts()
+    return response
+  })
+
+  onHandle('getOverdueThisWeek', async () => {
+    const response = await ContractController.getOverdueThisWeek()
+    return response
+  })
+
   onHandle(
     'updateContract',
     async (event: IpcMainInvokeEvent, contract: Partial<Contract>) => {

@@ -7,3 +7,5 @@ export type AvaliableKeys =
   | 'updateDatabase'
   | 'deleteContract'
   | 'getContracts'
+  | 'getOverdueContracts'
+  | 'getOverdueThisWeek'

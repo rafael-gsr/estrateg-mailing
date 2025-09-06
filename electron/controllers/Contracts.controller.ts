@@ -1,10 +1,33 @@
-import { FindOptions } from 'sequelize'
+import { FindOptions, Op } from 'sequelize'
 import { ContractService } from '../services/Contracts.service.ts'
 import { Contract } from '../../types'
 
 async function get(findOptions?: FindOptions) {
-  if (findOptions) return await ContractService.get(findOptions)
-  return await ContractService.getAll()
+  return await ContractService.get(findOptions)
+}
+
+async function getOverdueContracts() {
+  return await ContractService.get({
+    where: {
+      dueDate: { [Op.lt]: new Date().getTime() },
+    },
+  })
+}
+
+async function getOverdueThisWeek() {
+  const today = new Date()
+  const todayDate = today.getDate()
+  const minimal = today.setDate(todayDate - 4)
+  const maximal = today.setDate(todayDate + 4)
+
+  return await ContractService.get({
+    where: {
+      dueDate: {
+        [Op.lte]: maximal,
+        [Op.gte]: minimal,
+      },
+    },
+  })
 }
 
 async function create(contract: Contract) {
@@ -31,4 +54,6 @@ export const ContractController = {
   create,
   update,
   remove,
+  getOverdueContracts,
+  getOverdueThisWeek,
 }
