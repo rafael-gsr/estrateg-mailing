@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
 import SideBarMenu from '../../Organisms/SideBarMenu'
 
-import './BaseTemplate.styles.scss'
+import './Base.styles.scss'
 import { ThemeProvider } from '@emotion/react'
 import muiTheme from '../../../styles/Theme'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
