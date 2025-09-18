@@ -22,7 +22,7 @@ async function getOverdueThisWeek() {
   const minimal = today.setDate(todayDate - 4)
   const maximal = today.setDate(todayDate + 4)
 
-  const getResponse = await ContractService.get({
+  const response = await ContractService.get({
     where: {
       dueDate: {
         [Op.lte]: maximal,
@@ -31,7 +31,7 @@ async function getOverdueThisWeek() {
     },
   })
 
-  return getResponse
+  return response
 }
 
 async function create(contract: Contract) {
