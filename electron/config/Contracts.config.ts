@@ -23,8 +23,8 @@ export const defineContractsHandler = () => {
     }
   )
 
-  onHandle('getOverdueContracts', async () => {
-    const response = await ContractController.getOverdueContracts()
+  onHandle('getOverduedContracts', async () => {
+    const response = await ContractController.getOverduedContracts()
     return response
   })
 

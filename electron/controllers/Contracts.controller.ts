@@ -6,12 +6,14 @@ async function get(findOptions?: FindOptions) {
   return await ContractService.get(findOptions)
 }
 
-async function getOverdueContracts() {
-  return await ContractService.get({
+async function getOverduedContracts() {
+  const response = await ContractService.get({
     where: {
       dueDate: { [Op.lt]: new Date().getTime() },
     },
   })
+
+  return response
 }
 
 async function getOverdueThisWeek() {
@@ -20,7 +22,7 @@ async function getOverdueThisWeek() {
   const minimal = today.setDate(todayDate - 4)
   const maximal = today.setDate(todayDate + 4)
 
-  return await ContractService.get({
+  const getResponse = await ContractService.get({
     where: {
       dueDate: {
         [Op.lte]: maximal,
@@ -28,6 +30,8 @@ async function getOverdueThisWeek() {
       },
     },
   })
+
+  return getResponse
 }
 
 async function create(contract: Contract) {
@@ -54,6 +58,6 @@ export const ContractController = {
   create,
   update,
   remove,
-  getOverdueContracts,
+  getOverduedContracts,
   getOverdueThisWeek,
 }
