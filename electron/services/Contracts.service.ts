@@ -25,7 +25,7 @@ class Contracts {
   }
 
   async get(findOptions?: FindOptions) {
-    return await this.ContractModel.findAll(findOptions)
+    return await this.ContractModel.findAll({ ...findOptions, raw: true })
   }
 
   async create(contract: Contract) {
