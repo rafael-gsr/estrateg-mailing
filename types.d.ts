@@ -8,6 +8,8 @@ type ElectronMethods = {
   updateContract: (newContract: Contract) => Promise<any>
   getContracts: (options?: FindOptions) => Promise<any>
   deleteContract: (id: string) => Promise<any>
+  getOverduedContracts: () => Promise<Array<Contract>>
+  getOverdueThisWeek: () => Promise<Array<Contract>>
 }
 
 type Contract = {
@@ -16,10 +18,12 @@ type Contract = {
   activity: string
   email: string
   phone: string
-  dueDate: string
+  dueDate: number
   status: string
   lastContact: string
   observations?: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 type ElectronMethodsKeys = keyof ElectronMethods
