@@ -20,21 +20,23 @@ const SideBarMenu = ({ children }: SideBarMenuProps) => {
         onMouseLeave={() => setOpenSidebar(() => false)}
         className={`sidebar_menu--${openSidebar ? 'open' : 'close'}`}
       >
-        <SideBarItem>
-          <Logo
-            className='sidebar_menu__logo'
-            width={64}
-            height={64}
-          />
-          {openSidebar && (
-            <Title
-              level={2}
-              colorScheme='light'
-            >
-              Estrateg Mailing
-            </Title>
-          )}
-        </SideBarItem>
+        <div className='sidebar_menu__logo'>
+          <SideBarItem>
+            <Logo
+              className='sidebar_menu__logo__image'
+              width={64}
+              height={64}
+            />
+            {openSidebar && (
+              <Title
+                level={2}
+                colorScheme='light'
+              >
+                Estrateg Mailing
+              </Title>
+            )}
+          </SideBarItem>
+        </div>
 
         {generateSidebarItems(sidebarItems, openSidebar)}
 

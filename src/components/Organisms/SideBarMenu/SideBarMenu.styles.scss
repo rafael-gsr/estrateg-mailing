@@ -1,5 +1,5 @@
 @mixin SidebarStyles {
-  transition: width 400ms ease-out;
+  transition: width 200ms ease-out;
 
   background-color: var(--primary500);
 
@@ -61,8 +61,13 @@
   }
 
   &__logo {
-    background-color: var(--primary100);
-    border-radius: 60%;
+    width: 100%;
+    display: flex;
+
+    &__image {
+      background-color: var(--primary100);
+      border-radius: 60%;
+    }
   }
 
   &__item {
@@ -89,6 +94,7 @@
       align-items: center;
 
       gap: 8px;
+      width: 100%;
     }
   }
 }

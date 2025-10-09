@@ -17,16 +17,17 @@ function sidebarItemFactory(
   isOpen: boolean
 ) {
   return (
-    <SideBarItem key={label}>
-      <Link
-        to={path}
-        viewTransition
-        className='sidebar_menu__item__link'
-      >
+    <Link
+      key={path}
+      to={path}
+      viewTransition
+      className='sidebar_menu__item__link'
+    >
+      <SideBarItem key={label}>
         <IconComponent className='sidebar_menu__item__icon' />
         {isOpen ? label : ''}
-      </Link>
-    </SideBarItem>
+      </SideBarItem>
+    </Link>
   )
 }
 
