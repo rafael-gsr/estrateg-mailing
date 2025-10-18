@@ -1,63 +1,57 @@
-import { FindOptions, Op } from 'sequelize'
-import { ContractService } from '../services/Contracts.service.ts'
-import { Contract } from '../../types'
+import { FindOptions, Op } from "sequelize";
+import { Contract } from "../../types.ts";
+import ContractService from "../services/Contracts.service.ts";
 
-async function get(findOptions?: FindOptions) {
-  return await ContractService.get(findOptions)
-}
+export class ContractController {
+  protected service = ContractService;
 
-async function getOverduedContracts() {
-  const response = await ContractService.get({
-    where: {
-      dueDate: { [Op.lt]: new Date().getTime() },
-    },
-  })
+  async get(findOptions?: FindOptions) {
+    return await this.service.get(findOptions);
+  }
 
-  return response
-}
-
-async function getOverdueThisWeek() {
-  const today = new Date()
-  const todayDate = today.getDate()
-  const minimal = today.setDate(todayDate - 4)
-  const maximal = today.setDate(todayDate + 4)
-
-  const response = await ContractService.get({
-    where: {
-      dueDate: {
-        [Op.lte]: maximal,
-        [Op.gte]: minimal,
+  async getOverduedContracts() {
+    const response = await this.service.get({
+      where: {
+        dueDate: { [Op.lt]: new Date().getTime() },
       },
-    },
-  })
+    });
 
-  return response
-}
+    return response;
+  }
 
-async function create(contract: Contract) {
-  return await ContractService.create({
-    ...contract,
-    status: '',
-    lastContact: new Date().toISOString(),
-  })
-}
+  async getOverdueThisWeek() {
+    const today = new Date();
+    const todayDate = today.getDate();
+    const minimal = today.setDate(todayDate - 4);
+    const maximal = today.setDate(todayDate + 4);
 
-async function update(contract: Partial<Contract>) {
-  return await ContractService.update(contract)
-}
+    const response = await this.service.get({
+      where: {
+        dueDate: {
+          [Op.lte]: maximal,
+          [Op.gte]: minimal,
+        },
+      },
+    });
 
-async function remove(id: string) {
-  return await ContractService.delete(id)
-}
+    return response;
+  }
 
-async function updateDatabase() {}
+  async create(contract: Contract) {
+    return await this.service.create({
+      ...contract,
+      status: "",
+      lastContact: new Date().toISOString(),
+    });
+  }
 
-export const ContractController = {
-  updateDatabase,
-  get,
-  create,
-  update,
-  remove,
-  getOverduedContracts,
-  getOverdueThisWeek,
+  async update(contract: Partial<Contract>) {
+    return await this.service.update(contract);
+  }
+
+  async remove(id: string) {
+    return await this.service.delete(id);
+  }
+
+  async updateDatabase() {}
 }

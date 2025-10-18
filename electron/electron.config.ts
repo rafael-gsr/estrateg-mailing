@@ -1,15 +1,16 @@
-import { app } from "electron";
-import { database } from "./database/database.ts";
-import { defineContractsHandler } from "./config/Contracts.config.ts";
-import { defineEventHandlers } from "./config/Events.config.ts";
-import { createWindow } from "./config/Window.config.ts";
+import { app } from 'electron'
+import { ContractHandlerConfig } from './config/Contracts.config.ts'
+import { defineEventHandlers } from './config/Events.config.ts'
+import { createWindow } from './config/Window.config.ts'
+import { connection } from './database/connection.ts'
 
-app.enableSandbox();
+app.enableSandbox()
 
 app.whenReady().then(() => {
-  createWindow();
-  defineEventHandlers();
-  defineContractsHandler();
+  createWindow()
+  defineEventHandlers()
+  const contractHandler = new ContractHandlerConfig()
+  contractHandler.defineContractsHandler()
 
-  database.sync().then((syncResponse) => console.log(syncResponse));
-});
+  connection.sync().then((syncResponse) => console.log(syncResponse))
+})

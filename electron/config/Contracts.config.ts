@@ -1,55 +1,90 @@
-import { IpcMainInvokeEvent } from 'electron'
-import { onHandle } from '../utils.ts'
-import { FindOptions } from 'sequelize'
-import { ContractController } from '../controllers/Contracts.controller.ts'
-import { Contract } from '../../types'
+import { IpcMainInvokeEvent } from "electron";
+import { onHandle } from "../utils.ts";
+import { FindOptions } from "sequelize";
+import { ContractController } from "../controllers/Contracts.controller.ts";
+import { Contract } from "../../types";
 
-export const defineContractsHandler = () => {
-  onHandle(
-    'createContract',
-    async (event: IpcMainInvokeEvent, contract: Contract) => {
-      console.log('create event: ', event)
-      const responsePromise = await ContractController.create(contract)
-      return responsePromise
-    }
-  )
+export class ContractHandlerConfig {
+  protected controller: ContractController;
 
-  onHandle(
-    'getContracts',
-    async (event: IpcMainInvokeEvent, options?: FindOptions) => {
-      console.log('get event: ', event)
-      const responsePromise = await ContractController.get(options)
-      return responsePromise
-    }
-  )
+  constructor() {
+    this.controller = new ContractController();
+    return this;
+  }
 
-  onHandle('getOverduedContracts', async () => {
-    const response = await ContractController.getOverduedContracts()
-    return response
-  })
+  createContract() {
+    onHandle(
+      "createContract",
+      async (event: IpcMainInvokeEvent, contract: Contract) => {
+        console.log("create event: ", event);
+        const responsePromise = await this.controller.create(contract);
+        return responsePromise;
+      },
+    );
+  }
 
-  onHandle('getOverdueThisWeek', async () => {
-    const response = await ContractController.getOverdueThisWeek()
-    return response
-  })
+  getContracts() {
+    onHandle(
+      "getContracts",
+      async (event: IpcMainInvokeEvent, options?: FindOptions) => {
+        console.log("get event: ", event);
+        const responsePromise = await this.controller.get(options);
+        return responsePromise;
+      },
+    );
+  }
 
-  onHandle(
-    'updateContract',
-    async (event: IpcMainInvokeEvent, contract: Partial<Contract>) => {
-      console.log('update event: ', event)
-      const responsePromise = await ContractController.update(contract)
-      return responsePromise
-    }
-  )
+  getOverduedContracts() {
+    onHandle("getOverduedContracts", async () => {
+      const response = await this.controller.getOverduedContracts();
+      return response;
+    });
+  }
 
-  onHandle('deleteContract', async (event: IpcMainInvokeEvent, id: string) => {
-    console.log('delete event: ', event)
-    const responsePromise = await ContractController.remove(id)
-    return responsePromise
-  })
+  getOverdueThisWeek() {
+    onHandle("getOverdueThisWeek", async () => {
+      const response = await this.controller.getOverdueThisWeek();
+      return response;
+    });
+  }
 
-  onHandle('updateDatabase', async (event: IpcMainInvokeEvent) => {
-    console.log('update database', event)
-    return 'ok'
-  })
+  updateContract() {
+    onHandle(
+      "updateContract",
+      async (event: IpcMainInvokeEvent, contract: Partial<Contract>) => {
+        console.log("update event: ", event);
+        const responsePromise = await this.controller.update(contract);
+        return responsePromise;
+      },
+    );
+  }
+
+  deleteContract() {
+    onHandle(
+      "deleteContract",
+      async (event: IpcMainInvokeEvent, id: string) => {
+        console.log("delete event: ", event);
+        const responsePromise = await this.controller.remove(id);
+        return responsePromise;
+      },
+    );
+  }
+
+  updateDatabase() {
+    onHandle("updateDatabase", async (event: IpcMainInvokeEvent) => {
+      console.log("update database", event);
+      return "ok";
+    });
+  }
+
+  defineContractsHandler() {
+    this.getOverduedContracts();
+    this.createContract();
+    this.defineContractsHandler();
+    this.deleteContract();
+    this.getContracts();
+    this.getOverdueThisWeek();
+    this.updateContract();
+    this.deleteContract();
+  }
 }

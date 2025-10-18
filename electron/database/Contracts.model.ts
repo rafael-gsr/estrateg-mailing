@@ -1,6 +1,6 @@
-import { DataTypes, ModelAttributes, UUIDV4 } from 'sequelize'
+import { DataTypes, ModelAttributes, UUIDV4 } from "sequelize";
 
-export const Contract: ModelAttributes = {
+export const contractModel: ModelAttributes = {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -52,6 +52,4 @@ export const Contract: ModelAttributes = {
     type: DataTypes.DATE,
     allowNull: false,
   },
-}
-
-export const Clients: ModelAttributes = {}
+};

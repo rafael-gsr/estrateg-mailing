@@ -1,71 +1,71 @@
-import { FindOptions } from 'sequelize'
-import { connection } from '../database/connection.ts'
-import { Contract as ContractModel } from '../database/Contracts.model.ts'
-import { Contract } from '../../types.ts'
+import { FindOptions } from "sequelize";
+import { connection } from "../database/connection.ts";
+import { Contract } from "../../types.ts";
+import { ContractRepository } from "../repository/Contracts.repository.ts";
 
-class Contracts {
-  private ContractModel
+class ContractService {
+  private repository;
 
   constructor() {
-    connection.sync().then()
+    connection.sync().then();
 
-    this.ContractModel = connection.define('Contracts', ContractModel)
+    this.repository = ContractRepository;
   }
 
   getInstance() {
-    if (this.ContractModel === undefined) {
+    if (this.repository === undefined) {
       console.log(
-        'The connection is undefined, please initalize the Contracts class before getting the instance'
-      )
+        "The connection is undefined, please initalize the Contracts class before getting the instance",
+      );
 
-      return
+      return;
     }
 
-    return this.ContractModel
+    return this.repository;
   }
 
   async get(findOptions?: FindOptions) {
-    return await this.ContractModel.findAll({ ...findOptions, raw: true })
+    return await this.repository.findAll({ ...findOptions, raw: true });
   }
 
   async create(contract: Contract) {
-    const createResponse = await this.ContractModel.create(contract)
+    const createResponse = await this.repository.create(contract);
 
-    return createResponse
+    return createResponse;
   }
 
   async delete(id: string) {
-    const deleteResponse = await this.ContractModel.destroy({
+    const deleteResponse = await this.repository.destroy({
       where: {
         id: id,
       },
-    })
+    });
 
-    return deleteResponse
+    return deleteResponse;
   }
 
   async update(contract: Partial<Contract>) {
-    const findedObject = await this.ContractModel.findOne({
+    const findedObject = await this.repository.findOne({
       where: {
         id: contract.id,
       },
-    })
+    });
 
     if (findedObject !== null) {
-      const contractKeys = Object.keys(contract)
-      type TContractKeys = keyof typeof contract
-      type TFindedObjectKeys = keyof typeof findedObject
+      const contractKeys = Object.keys(contract);
+      type TContractKeys = keyof typeof contract;
+      type TFindedObjectKeys = keyof typeof findedObject;
 
       contractKeys.forEach((field) => {
         findedObject[field as TFindedObjectKeys] =
-          contract[field as TContractKeys]
-      })
+          contract[field as TContractKeys];
+      });
     }
 
-    findedObject?.save()
+    findedObject?.save();
 
-    return findedObject
+    return findedObject;
   }
 }
 
-export const ContractService = new Contracts()
+export default new ContractService() as ContractService;
