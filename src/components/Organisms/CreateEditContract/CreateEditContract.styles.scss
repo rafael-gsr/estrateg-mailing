@@ -1,10 +1,13 @@
 .create_edit_form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 
   &__buttons {
     display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+
     gap: 8px;
   }
 }
