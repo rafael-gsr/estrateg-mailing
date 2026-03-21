@@ -3,51 +3,51 @@ import { PropsWithChildren } from "react";
 import { create } from "zustand";
 
 type SnackbarContextProps = {
-	severity: AlertColor;
-	message: string;
-	time?: number;
+  severity: AlertColor;
+  message: string;
+  time?: number;
 };
 
 interface UseSnackbar {
-	props: SnackbarContextProps;
+  props: SnackbarContextProps;
 
-	visible: boolean;
-	open: ({ severity, message }: SnackbarContextProps) => void;
-	close: () => void;
+  visible: boolean;
+  open: ({ severity, message }: SnackbarContextProps) => void;
+  close: () => void;
 }
 
 const useSnackbar = create<UseSnackbar>((set) => ({
-	props: {
-		message: "",
-		severity: "info",
-		time: 10_000,
-	},
+  props: {
+    message: "",
+    severity: "info",
+    time: 10_000,
+  },
 
-	visible: false,
-	open: (props: SnackbarContextProps) => set({ props, visible: true }),
-	close: () => set({ visible: false }),
+  visible: false,
+  open: (props: SnackbarContextProps) => set({ props, visible: true }),
+  close: () => set({ visible: false }),
 }));
 
 export const SnackbarProvider = ({ children }: PropsWithChildren) => {
-	const { visible, props, close } = useSnackbar();
+  const { visible, props, close } = useSnackbar();
 
-	return (
-		<>
-			{children}
+  return (
+    <>
+      {children}
 
-			<Snackbar
-				anchorOrigin={{ vertical: "top", horizontal: "right" }}
-				open={visible}
-				autoHideDuration={props.time || 10_000}
-				onClose={close}
-				sx={{ width: "100%" }}
-			>
-				<Alert severity={props.severity} variant="filled">
-					{props.message}
-				</Alert>
-			</Snackbar>
-		</>
-	);
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={visible}
+        autoHideDuration={props.time || 10_000}
+        onClose={close}
+        sx={{ width: "100%" }}
+      >
+        <Alert severity={props.severity} variant="filled">
+          {props.message}
+        </Alert>
+      </Snackbar>
+    </>
+  );
 };
 
 export default useSnackbar;

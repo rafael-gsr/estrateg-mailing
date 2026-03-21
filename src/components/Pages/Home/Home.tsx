@@ -7,16 +7,12 @@ import CreateEditContract from "../../Organisms/CreateEditContract";
 import { ContractFields } from "../../Organisms/CreateEditContract/CreateEditContract.utils";
 import { Contract } from "../../../../types";
 import Title from "../../Atoms/Title";
-import { Alert, Button, Snackbar } from "@mui/material";
+import { Button } from "@mui/material";
 import { Status } from "../../../constants/Status";
 import TableTemplate from "../../Templates/Table";
-import { SnackbarProps } from "../../../types/snack";
+import { useCreateContract } from "../../../hooks/useCreateContract";
 
 const Home = () => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [snack, setSnack] = useState<SnackbarProps | undefined>();
-
   const [contracts, setContracts] = useState<Array<Contract> | undefined>();
 
   const getOverdued = useCallback(
@@ -31,38 +27,22 @@ const Home = () => {
     getOverdued();
   }, [getOverdued]);
 
-  const handleCloseSnack = () => {
-    setSnack(undefined);
-  };
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const handleOnClose = () => {
     setIsVisible(false);
   };
 
+  const onSuccess = () => {
+    handleOnClose();
+    getOverdued();
+  };
+
+  const { send, loading } = useCreateContract({ onSuccess });
+
   const onSubmit = (formValues: ContractFields) => {
     formValues.status = Status.REGULAR;
-
-    setIsLoading(true);
-
-    window.api
-      .createContract(formValues as Contract)
-      .then(() => {
-        setIsVisible(false);
-        setSnack({
-          severity: "success",
-          message: "Contrato criado com sucesso.",
-        });
-        getOverdued();
-      })
-      .catch(() => {
-        setSnack({
-          severity: "error",
-          message: "Não foi possível salvar o contrato.",
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    send(formValues as Contract);
   };
 
   return (
@@ -79,22 +59,11 @@ const Home = () => {
         <CreateEditContract
           onCancel={() => setIsVisible(false)}
           onSubmit={onSubmit}
-          isLoading={isLoading}
+          isLoading={loading}
         />
       </Modal>
 
       <TableTemplate data={contracts} />
-
-      <Snackbar
-        open={!!snack}
-        autoHideDuration={7000}
-        onClose={handleCloseSnack}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert onClose={handleCloseSnack} severity={snack?.severity}>
-          {snack?.message}
-        </Alert>
-      </Snackbar>
     </BaseTemplate>
   );
 };
