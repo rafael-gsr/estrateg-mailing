@@ -4,6 +4,7 @@
 .application-base {
   @include fonts.sizes;
 
+  overflow: hidden;
   padding: 0;
   margin: 0;
 
