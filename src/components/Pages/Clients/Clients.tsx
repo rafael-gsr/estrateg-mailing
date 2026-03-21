@@ -1,4 +1,4 @@
-import BaseTemplate from '../../Templates/BaseTemplate/BaseTemplate'
+import BaseTemplate from '../../Templates/Base/Base'
 
 const Clients = () => (
   <BaseTemplate>
