@@ -42,6 +42,13 @@
 
   --border500: var(--primary500);
   --background: var(--dark300);
+
+  --status-green: #90be6d;
+  --status-blue: #277da1;
+  --status-yellow: #f9c74f;
+  --status-orange: #f3722c;
+  --status-red: #f94144;
+  --status-gray: #323639;
 }
 
 @mixin light-theme {

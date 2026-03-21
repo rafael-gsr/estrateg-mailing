@@ -1,14 +1,37 @@
-.STATUS_CHIP {
+@mixin chip-styles {
+  padding: 8px;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.status_chip {
   &--green {
+    @include chip-styles;
+    background-color: var(--status-green);
   }
+
   &--blue {
+    @include chip-styles;
+    background-color: var(--status-blue);
   }
+
   &--yellow {
+    @include chip-styles;
+    background-color: var(--status-yellow);
   }
+
   &--orange {
+    @include chip-styles;
+    background-color: var(--status-orange);
   }
+
   &--red {
+    @include chip-styles;
+    background-color: var(--status-red);
   }
+
   &--gray {
+    @include chip-styles;
+    background-color: var(--status-gray);
   }
 }
