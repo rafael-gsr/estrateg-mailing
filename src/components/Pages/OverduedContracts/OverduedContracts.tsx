@@ -1,23 +1,22 @@
-import { useEffect, useState } from 'react'
-import TableTemplate from '../../Templates/Table'
-import { Contract } from '../../../../types'
-import BaseTemplate from '../../Templates/Base'
+import { useGetOverduedContracts } from "../../../hooks/useGetOverduedContracts";
+import Title from "../../Atoms/Title";
+import BaseTemplate from "../../Templates/Base";
+import TableTemplate from "../../Templates/Table";
 
 const OverduedContracts = () => {
-  const [contracts, setContracts] = useState<Array<Contract> | undefined>()
+	const { contracts, isLoading } = useGetOverduedContracts();
 
-  useEffect(() => {
-    window.api.getOverduedContracts().then((overdued) => setContracts(overdued))
-  }, [])
+	return isLoading ? (
+		<>...carregando</>
+	) : (
+		<BaseTemplate>
+			<Title level={1} colorScheme="light">
+				Contratos vencidos
+			</Title>
 
-  return (
-    <BaseTemplate>
-      <TableTemplate
-        title='Contratos vencidos'
-        data={contracts}
-      />
-    </BaseTemplate>
-  )
-}
+			<TableTemplate data={contracts} />
+		</BaseTemplate>
+	);
+};
 
-export default OverduedContracts
+export default OverduedContracts;
