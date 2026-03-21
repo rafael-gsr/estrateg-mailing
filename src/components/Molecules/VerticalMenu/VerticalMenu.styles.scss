@@ -1,0 +1,13 @@
+.actions {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &__options {
+    width: 100%;
+    height: 100%;
+  }
+}
