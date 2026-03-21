@@ -12,7 +12,7 @@ export class ContractHandlerConfig {
     return this;
   }
 
-  createContract() {
+  private createContract() {
     onHandle(
       "createContract",
       async (event: IpcMainInvokeEvent, contract: Contract) => {
@@ -23,7 +23,7 @@ export class ContractHandlerConfig {
     );
   }
 
-  getContracts() {
+  private getContracts() {
     onHandle(
       "getContracts",
       async (event: IpcMainInvokeEvent, options?: FindOptions) => {
@@ -34,21 +34,21 @@ export class ContractHandlerConfig {
     );
   }
 
-  getOverduedContracts() {
+  private getOverduedContracts() {
     onHandle("getOverduedContracts", async () => {
       const response = await this.controller.getOverduedContracts();
       return response;
     });
   }
 
-  getOverdueThisWeek() {
+  private getOverdueThisWeek() {
     onHandle("getOverdueThisWeek", async () => {
       const response = await this.controller.getOverdueThisWeek();
       return response;
     });
   }
 
-  updateContract() {
+  private updateContract() {
     onHandle(
       "updateContract",
       async (event: IpcMainInvokeEvent, contract: Partial<Contract>) => {
@@ -59,7 +59,7 @@ export class ContractHandlerConfig {
     );
   }
 
-  deleteContract() {
+  private deleteContract() {
     onHandle(
       "deleteContract",
       async (event: IpcMainInvokeEvent, id: string) => {
@@ -70,21 +70,29 @@ export class ContractHandlerConfig {
     );
   }
 
-  updateDatabase() {
+  private updateDatabase() {
     onHandle("updateDatabase", async (event: IpcMainInvokeEvent) => {
       console.log("update database", event);
       return "ok";
     });
   }
 
+  private nextState() {
+    onHandle("nextState", async (event: IpcMainInvokeEvent, id: string) => {
+      console.log("nextState", event);
+      const response = await this.controller.nextState(id);
+      return response;
+    });
+  }
+
   defineContractsHandler() {
     this.getOverduedContracts();
     this.createContract();
-    this.defineContractsHandler();
     this.deleteContract();
     this.getContracts();
     this.getOverdueThisWeek();
     this.updateContract();
-    this.deleteContract();
+    this.updateDatabase();
+    this.nextState();
   }
 }
