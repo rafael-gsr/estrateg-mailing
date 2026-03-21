@@ -10,17 +10,13 @@ import Title from "../../Atoms/Title";
 import { Alert, Button, Snackbar } from "@mui/material";
 import { Status } from "../../../constants/Status";
 import TableTemplate from "../../Templates/Table";
+import { SnackbarProps } from "../../../types/snack";
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [snack, setSnack] = useState<
-    | {
-        message: string;
-        severity: "success" | "error";
-      }
-    | undefined
-  >();
+  const [snack, setSnack] = useState<SnackbarProps | undefined>();
+
   const [contracts, setContracts] = useState<Array<Contract> | undefined>();
 
   const getOverdued = useCallback(
@@ -50,22 +46,22 @@ const Home = () => {
 
     window.api
       .createContract(formValues as Contract)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         setIsVisible(false);
-        setIsLoading(false);
         setSnack({
           severity: "success",
-          message: "Cadastro criado com sucesso.",
+          message: "Contrato criado com sucesso.",
         });
         getOverdued();
       })
       .catch(() => {
-        setIsLoading(false);
         setSnack({
           severity: "error",
           message: "Não foi possível salvar o contrato.",
         });
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
