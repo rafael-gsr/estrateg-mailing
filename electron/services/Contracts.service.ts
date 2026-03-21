@@ -1,7 +1,8 @@
-import { FindOptions } from "sequelize";
+import { FindOptions, Op } from "sequelize";
 import { connection } from "../database/connection.ts";
 import { Contract } from "../../types.ts";
 import { ContractRepository } from "../repository/Contracts.repository.ts";
+import { Status } from "../state/State.ts";
 
 class ContractService {
   private repository;
@@ -28,20 +29,52 @@ class ContractService {
     return await this.repository.findAll({ ...findOptions, raw: true });
   }
 
-  async create(contract: Contract) {
-    const createResponse = await this.repository.create(contract);
+  async getOne(findOptions?: FindOptions) {
+    return await this.repository.findOne({ ...findOptions });
+  }
 
+  async getOverdued() {
+    const now = new Date();
+
+    return await this.repository.findAll({
+      where: {
+        dueDate: { [Op.lte]: now.getTime() },
+      },
+      raw: true,
+    });
+  }
+
+  async getOverdueThisWeek() {
+    const today = new Date();
+    const todayDate = today.getDate();
+    const minimal = today.setDate(todayDate - 4);
+    const maximal = today.setDate(todayDate + 4);
+
+    return await this.repository.findAll({
+      where: {
+        dueDate: {
+          [Op.lte]: maximal,
+          [Op.gte]: minimal,
+        },
+      },
+      raw: true,
+    });
+  }
+
+  async create(contract: Contract) {
+    const createResponse = await this.repository.create({
+      ...contract,
+      status: Status.REGULAR,
+    });
     return createResponse;
   }
 
   async delete(id: string) {
-    const deleteResponse = await this.repository.destroy({
+    return await this.repository.destroy({
       where: {
         id: id,
       },
     });
-
-    return deleteResponse;
   }
 
   async update(contract: Partial<Contract>) {
@@ -51,16 +84,17 @@ class ContractService {
       },
     });
 
-    if (findedObject !== null) {
-      const contractKeys = Object.keys(contract);
-      type TContractKeys = keyof typeof contract;
-      type TFindedObjectKeys = keyof typeof findedObject;
+    if (findedObject === null)
+      throw new Error(`No object found with id: ${contract.id} `);
 
-      contractKeys.forEach((field) => {
-        findedObject[field as TFindedObjectKeys] =
-          contract[field as TContractKeys];
-      });
-    }
+    const fields = Object.keys(contract);
+    type TContractKeys = keyof typeof contract;
+    type TFindedObjectKeys = keyof typeof findedObject;
+
+    fields.forEach((field) => {
+      findedObject[field as TFindedObjectKeys] =
+        contract[field as TContractKeys];
+    });
 
     findedObject?.save();
 

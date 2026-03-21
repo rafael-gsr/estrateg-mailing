@@ -1,6 +1,7 @@
 import { DataTypes, ModelAttributes, UUIDV4 } from "sequelize";
+import { Status } from "../state/State.ts";
 
-export const contractModel: ModelAttributes = {
+export const ContractEntity: ModelAttributes = {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -44,7 +45,7 @@ export const contractModel: ModelAttributes = {
   },
 
   status: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM(...Object.values(Status)),
     allowNull: false,
   },
 

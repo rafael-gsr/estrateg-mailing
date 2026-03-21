@@ -1,6 +1,7 @@
-import { FindOptions, Op } from "sequelize";
+import { FindOptions } from "sequelize";
 import { Contract } from "../../types.ts";
 import ContractService from "../services/Contracts.service.ts";
+import { StateFactory, Status } from "../state/State.ts";
 
 export class ContractController {
   protected service = ContractService;
@@ -10,37 +11,16 @@ export class ContractController {
   }
 
   async getOverduedContracts() {
-    const response = await this.service.get({
-      where: {
-        dueDate: { [Op.lt]: new Date().getTime() },
-      },
-    });
-
-    return response;
+    return await this.service.getOverdued();
   }
 
   async getOverdueThisWeek() {
-    const today = new Date();
-    const todayDate = today.getDate();
-    const minimal = today.setDate(todayDate - 4);
-    const maximal = today.setDate(todayDate + 4);
-
-    const response = await this.service.get({
-      where: {
-        dueDate: {
-          [Op.lte]: maximal,
-          [Op.gte]: minimal,
-        },
-      },
-    });
-
-    return response;
+    return await this.service.getOverdueThisWeek();
   }
 
   async create(contract: Contract) {
     return await this.service.create({
       ...contract,
-      status: "",
       lastContact: new Date().toISOString(),
     });
   }
@@ -53,5 +33,17 @@ export class ContractController {
     return await this.service.delete(id);
   }
 
-  async updateDatabase() {}
+  async updateDatabase() {
+    throw new Error("You cannot do it");
+  }
+
+  async nextState(id: string) {
+    const itemToUpdate = await this.service.getOne({ where: { id } });
+
+    const state = new StateFactory(
+      itemToUpdate?.dataValues.status || Status.REGULAR,
+    ).get();
+
+    state.goToNextState();
+  }
 }
