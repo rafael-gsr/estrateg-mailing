@@ -1,3 +1,4 @@
+import "./Table.styles.scss";
 import {
   Table,
   TableBody,
@@ -5,73 +6,114 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@mui/material'
-import { Contract } from '../../../../types'
-import Title from '../../Atoms/Title'
-import Actions from '../../Molecules/Actions'
-import { formatDate } from '../../../utils/formatDate'
-import StatusChip from '../../Atoms/StatusChip'
+} from "@mui/material";
+import { Contract } from "../../../../types";
+import VerticalMenu from "../../Molecules/VerticalMenu";
+import { formatDate } from "../../../utils/formatDate";
+import StatusChip from "../../Atoms/StatusChip";
+import { cutAndAddEllipsis } from "../../../utils/cutAndAddEllipsis";
 
-const TableTemplate = ({
-  data,
-  title,
-}: {
-  data: Array<Contract> | undefined
-  title: string
-}) => {
+const TableTemplate = ({ data }: { data: Array<Contract> | undefined }) => {
   return (
-    <>
-      <Title
-        level={1}
-        colorScheme='light'
-      >
-        {title}
-      </Title>
+    <TableContainer className="container">
+      <Table className="container__table">
+        <TableHead className="container__table__head">
+          <TableRow className="container__table__head__row">
+            <TableCell className="container__table__head__row__cell">
+              Empresa
+            </TableCell>
 
-      <TableContainer style={{ overflow: 'visible' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Empresa</TableCell>
+            <TableCell className="container__table__head__row__cell">
+              Ramo
+            </TableCell>
 
-              <TableCell>Ramo</TableCell>
+            <TableCell className="container__table__head__row__cell">
+              Email
+            </TableCell>
 
-              <TableCell>Email</TableCell>
+            <TableCell className="container__table__head__row__cell">
+              Telefone
+            </TableCell>
 
-              <TableCell>Telefone</TableCell>
+            <TableCell className="container__table__head__row__cell">
+              Data de Vencimento
+            </TableCell>
 
-              <TableCell>Data de Vencimento</TableCell>
+            <TableCell className="container__table__head__row__cell">
+              Status
+            </TableCell>
 
-              <TableCell>Status</TableCell>
+            <TableCell className="container__table__head__row__cell">
+              Último Contato
+            </TableCell>
 
-              <TableCell>Último Contato</TableCell>
+            <TableCell className="container__table__head__row__cell">
+              Ações
+            </TableCell>
+          </TableRow>
+        </TableHead>
 
-              <TableCell>Ações</TableCell>
+        <TableBody className="container__table__body">
+          {data?.map((contract) => (
+            <TableRow key={contract.id} className="container__table__body__row">
+              <TableCell
+                className="container__table__body__row__cell"
+                title={contract.companyName}
+              >
+                {cutAndAddEllipsis(contract.companyName)}
+              </TableCell>
+
+              <TableCell
+                className="container__table__body__row__cell"
+                title={contract.activity}
+              >
+                {cutAndAddEllipsis(contract.activity)}
+              </TableCell>
+
+              <TableCell
+                className="container__table__body__row__cell"
+                title={contract.email}
+              >
+                {cutAndAddEllipsis(contract.email)}
+              </TableCell>
+
+              <TableCell
+                className="container__table__body__row__cell container__table__body__row__cell--phone"
+                title={contract.phone}
+              >
+                {contract.phone}
+              </TableCell>
+
+              <TableCell
+                className="container__table__body__row__cell"
+                title={formatDate(contract.dueDate)}
+              >
+                {formatDate(contract.dueDate)}
+              </TableCell>
+
+              <TableCell className="container__table__body__row__cell">
+                <StatusChip status={contract.status} />
+              </TableCell>
+
+              <TableCell
+                className="container__table__body__row__cell"
+                title={formatDate(contract.lastContact)}
+              >
+                {formatDate(contract.lastContact)}
+              </TableCell>
+
+              <TableCell
+                className="container__table__body__row__cell"
+                title="Menu de opções"
+              >
+                <VerticalMenu key={contract.id} />
+              </TableCell>
             </TableRow>
-          </TableHead>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
 
-          <TableBody>
-            {data?.map((contract) => (
-              <TableRow key={contract.id}>
-                <TableCell>{contract.companyName}</TableCell>
-                <TableCell>{contract.activity}</TableCell>
-                <TableCell>{contract.email}</TableCell>
-                <TableCell>{contract.phone}</TableCell>
-                <TableCell>{formatDate(contract.dueDate)}</TableCell>
-                <TableCell>
-                  <StatusChip status={contract.status} />
-                </TableCell>
-                <TableCell>{formatDate(contract.lastContact)}</TableCell>
-                <TableCell>
-                  <Actions key={contract.id} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
-  )
-}
-
-export default TableTemplate
+export default TableTemplate;

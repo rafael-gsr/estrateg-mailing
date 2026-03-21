@@ -1,0 +1,32 @@
+.container {
+  overflow: auto;
+  width: 100%;
+
+  &__table {
+    &__head {
+      &__row {
+        &__cell {
+          width: 170px;
+          line-height: 1 !important;
+        }
+      }
+    }
+
+    &__body {
+      overflow: auto;
+      width: 100%;
+
+      &__row {
+        &__cell {
+          line-height: 1 !important;
+          padding: 4px !important;
+
+          &--phone {
+            white-space: nowrap;
+            width: 170px;
+          }
+        }
+      }
+    }
+  }
+}
