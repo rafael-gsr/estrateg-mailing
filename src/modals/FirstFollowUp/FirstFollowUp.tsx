@@ -1,14 +1,12 @@
-    import Modal from "src/components/Molecules/Modal";
-    import { useModalContext } from "src/contexts/ModalContext";
+import Modal from "src/components/Molecules/Modal";
+import { ModalProps } from "src/contexts/modalContext/modalContext.types";
 
-    const FirstFollowUp = () => {
-      const {close} = useModalContext()
+const FirstFollowUp = ({ close }: ModalProps) => {
+  return (
+    <Modal visible={true} onClose={close} title="FirstFollowUp">
+      "FirstFollowUp"
+    </Modal>
+  );
+};
 
-    return (
-      <Modal visible={true} onClose={close} title="FirstFollowUp">
-        "FirstFollowUp"
-      </Modal>
-      )
-    }
-
-    export default FirstFollowUp
+export default FirstFollowUp;

@@ -1,4 +1,4 @@
-import { useModalContext } from "../../../contexts/ModalContext";
+import { useModalContext } from "../../../contexts/modal/ModalContext";
 import "./MenuPopup.styles.scss";
 
 function getStylesByState(state: boolean | undefined) {
@@ -12,7 +12,7 @@ function getStylesByState(state: boolean | undefined) {
 }
 
 const MenuPopup = ({ state }: { state: boolean | undefined }) => {
-  const { Modal, open } = useModalContext();
+  const { open } = useModalContext();
 
   return (
     <>
@@ -73,8 +73,6 @@ const MenuPopup = ({ state }: { state: boolean | undefined }) => {
           Deletar
         </span>
       </div>
-
-      {Modal}
     </>
   );
 };

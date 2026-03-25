@@ -1,14 +1,12 @@
-    import Modal from "src/components/Molecules/Modal";
-    import { useModalContext } from "src/contexts/ModalContext";
+import Modal from "src/components/Molecules/Modal";
+import { ModalProps } from "src/contexts/modalContext/modalContext.types";
 
-    const ArouseInterest = () => {
-      const {close} = useModalContext()
+const ArouseInterest = ({ close }: ModalProps) => {
+  return (
+    <Modal visible={true} onClose={close} title="ArouseInterest">
+      "ArouseInterest"
+    </Modal>
+  );
+};
 
-    return (
-      <Modal visible={true} onClose={close} title="ArouseInterest">
-        "ArouseInterest"
-      </Modal>
-      )
-    }
-
-    export default ArouseInterest
+export default ArouseInterest;

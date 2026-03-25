@@ -1,14 +1,12 @@
-    import Modal from "src/components/Molecules/Modal";
-    import { useModalContext } from "src/contexts/ModalContext";
+import Modal from "src/components/Molecules/Modal";
+import { ModalProps } from "src/contexts/modalContext/modalContext.types";
 
-    const Relapsed = () => {
-      const {close} = useModalContext()
+const Relapsed = ({ close }: ModalProps) => {
+  return (
+    <Modal visible={true} onClose={close} title="Relapsed">
+      "Relapsed"
+    </Modal>
+  );
+};
 
-    return (
-      <Modal visible={true} onClose={close} title="Relapsed">
-        "Relapsed"
-      </Modal>
-      )
-    }
-
-    export default Relapsed
+export default Relapsed;

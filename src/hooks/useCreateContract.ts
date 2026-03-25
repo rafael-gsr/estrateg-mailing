@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Contract } from "../../types";
-import useSnackbar from "../contexts/SnackBarContext";
+import { Contract } from "types";
+import { useSnackbar } from "../contexts/snackbar/useSnackbar";
 
 export const useCreateContract = ({
   onSuccess,

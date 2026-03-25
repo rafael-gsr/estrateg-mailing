@@ -1,14 +1,12 @@
-    import Modal from "src/components/Molecules/Modal";
-    import { useModalContext } from "src/contexts/ModalContext";
+import Modal from "src/components/Molecules/Modal";
+import { ModalProps } from "src/contexts/modalContext/modalContext.types";
 
-    const Breackup = () => {
-      const {close} = useModalContext()
+const Breackup = ({ close }: ModalProps) => {
+  return (
+    <Modal visible={true} onClose={close} title="Breackup">
+      "Breackup"
+    </Modal>
+  );
+};
 
-    return (
-      <Modal visible={true} onClose={close} title="Breackup">
-        "Breackup"
-      </Modal>
-      )
-    }
-
-    export default Breackup
+export default Breackup;

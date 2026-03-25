@@ -1,14 +1,12 @@
-    import Modal from "src/components/Molecules/Modal";
-    import { useModalContext } from "src/contexts/ModalContext";
+import Modal from "src/components/Molecules/Modal";
+import { ModalProps } from "src/contexts/modalContext/modalContext.types";
 
-    const Create = () => {
-      const {close} = useModalContext()
+const Create = ({ close }: ModalProps) => {
+  return (
+    <Modal visible={true} onClose={close} title="Create">
+      "Create"
+    </Modal>
+  );
+};
 
-    return (
-      <Modal visible={true} onClose={close} title="Create">
-        "Create"
-      </Modal>
-      )
-    }
-
-    export default Create
+export default Create;
