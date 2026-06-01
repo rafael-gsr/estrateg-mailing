@@ -1,10 +1,10 @@
 import { FindOptions } from "sequelize";
 import { Contract } from "../../types.ts";
 import ContractService from "../services/Contracts.service.ts";
-import { StateFactory, Status } from "../state/State.ts";
+import { StateFactory } from "../state/State.ts";
 
 export class ContractController {
-  protected service = ContractService;
+  protected service = new ContractService();
 
   async get(findOptions?: FindOptions) {
     return await this.service.get(findOptions);
@@ -40,10 +40,24 @@ export class ContractController {
   async nextState(id: string) {
     const itemToUpdate = await this.service.getOne({ where: { id } });
 
-    const state = new StateFactory(
-      itemToUpdate?.dataValues.status || Status.REGULAR,
-    ).get();
+    const stateTransition = StateFactory(itemToUpdate?.dataValues);
 
-    state.goToNextState();
+    const newContractState = stateTransition.goToNextState();
+
+    this.service.update(newContractState);
+
+    console.log("state contract", newContractState);
+  }
+
+  async prevState(id: string) {
+    const itemToUpdate = await this.service.getOne({ where: { id } });
+
+    const stateTransition = StateFactory(itemToUpdate?.dataValues);
+
+    const newContractState = stateTransition.goToNextState();
+
+    this.service.update(newContractState);
+
+    console.log("state contract", newContractState);
   }
 }

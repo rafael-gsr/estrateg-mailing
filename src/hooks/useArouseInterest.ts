@@ -1,31 +1,30 @@
 import { useState } from "react";
-import { Contract } from "types";
-import { useSnackbar } from "../contexts/snackbar/useSnackbar";
-import { useQueryState } from "src/contexts/queriesValidation/useQueryState";
 import { QUERIES } from "src/constants/queries";
+import { useQueryState } from "src/contexts/queriesValidation/useQueryState";
+import { useSnackbar } from "../contexts/snackbar/useSnackbar";
 
-export const useCreateContract = () => {
+export const useArouseInterest = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const snack = useSnackbar();
   const queriesStates = useQueryState();
 
-  const send = async (values: Contract) => {
+  const send = async (id: string) => {
     setLoading(true);
 
     try {
-      await window.api.createContract(values);
+      await window.api.nextState(id);
 
       snack.open({
         severity: "success",
-        message: "Contrato criado com sucesso.",
+        message: "Contrato enviado para 'Despertar Interesse'.",
       });
 
       queriesStates.outdateQuery(QUERIES.GET_CONTRACTS);
     } catch {
       snack.open({
         severity: "error",
-        message: "Não foi possível salvar o contrato.",
+        message: "Não foi possível atualizar o contrato.",
       });
     }
 

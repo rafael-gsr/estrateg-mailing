@@ -1,5 +1,4 @@
 import { Contract } from "../../types.ts";
-import { ContractRepository } from "../repository/Contracts.repository.ts";
 import ContractsService from "../services/Contracts.service.ts";
 
 export enum Status {
@@ -16,39 +15,18 @@ abstract class State {
 
   abstract service: typeof ContractsService;
 
-  abstract goToNextState(): Promise<ContractRepository | null>;
+  abstract goToNextState(): Contract;
 
-  async delete(): Promise<ContractRepository | null> {
-    if (!this.contract.id) throw new Error("Id not found");
+  abstract goToPrevState(): Contract;
 
-    const item = await this.service.getOne({ where: { id: this.contract.id } });
-    item?.destroy();
-
-    return item;
+  renew(): Contract {
+    this.contract.status = Status.REGULAR;
+    return this.contract;
   }
 
-  async renew(): Promise<ContractRepository | null> {
-    if (!this.contract.id) throw new Error("Id not found");
-
-    const item = await this.service.getOne({ where: { id: this.contract.id } });
-
-    item?.set({
-      status: Status.AROUSE_INTEREST,
-    });
-
-    return item;
-  }
-
-  async breach(): Promise<ContractRepository | null> {
-    if (!this.contract.id) throw new Error("Id not found");
-
-    const item = await this.service.getOne({ where: { id: this.contract.id } });
-
-    item?.set({
-      status: Status.BREACHED,
-    });
-
-    return item;
+  breach(): Contract {
+    this.contract.status = Status.BREACHED;
+    return this.contract;
   }
 }
 
@@ -62,17 +40,15 @@ class Regular extends State {
     this.contract = contract;
   }
 
-  async goToNextState(): Promise<ContractRepository | null> {
-    if (!this.contract.id) throw new Error("Id not found");
+  goToNextState(): Contract {
+    this.contract.status = Status.AROUSE_INTEREST;
+    this.contract.lastContact = new Date().getTime();
 
-    const item = await this.service.getOne({ where: { id: this.contract.id } });
+    return this.contract;
+  }
 
-    item?.set({
-      status: Status.AROUSE_INTEREST,
-      lastContact: new Date().getTime(),
-    });
-
-    return item;
+  goToPrevState(): Contract {
+    return this.contract;
   }
 }
 
@@ -86,17 +62,16 @@ class ArouseInterest extends State {
     this.contract = contract;
   }
 
-  async goToNextState(): Promise<ContractRepository | null> {
-    if (!this.contract.id) throw new Error("Id not found");
+  goToNextState(): Contract {
+    this.contract.status = Status.FIRST_FOLLOW_UP;
+    this.contract.lastContact = new Date().getTime();
+    return this.contract;
+  }
 
-    const item = await this.service.getOne({ where: { id: this.contract.id } });
-
-    item?.set({
-      status: Status.FIRST_FOLLOW_UP,
-      lastContact: new Date().getTime(),
-    });
-
-    return item;
+  goToPrevState(): Contract {
+    this.contract.status = Status.REGULAR;
+    this.contract.lastContact = new Date().getTime();
+    return this.contract;
   }
 }
 
@@ -110,17 +85,17 @@ class FirstFollowUp extends State {
     this.contract = contract;
   }
 
-  async goToNextState(): Promise<ContractRepository | null> {
-    if (!this.contract.id) throw new Error("Id not found");
+  goToNextState(): Contract {
+    this.contract.status = Status.SECOND_FOLLOW_UP;
+    this.contract.lastContact = new Date().getTime();
 
-    const item = await this.service.getOne({ where: { id: this.contract.id } });
+    return this.contract;
+  }
 
-    item?.set({
-      status: Status.SECOND_FOLLOW_UP,
-      lastContact: new Date().getTime(),
-    });
-
-    return item;
+  goToPrevState(): Contract {
+    this.contract.status = Status.AROUSE_INTEREST;
+    this.contract.lastContact = new Date().getTime();
+    return this.contract;
   }
 }
 
@@ -134,17 +109,17 @@ class SecondFollowUp extends State {
     this.contract = contract;
   }
 
-  async goToNextState(): Promise<ContractRepository | null> {
-    if (!this.contract.id) throw new Error("Id not found");
+  goToNextState(): Contract {
+    this.contract.status = Status.BREAKUP;
+    this.contract.lastContact = new Date().getTime();
 
-    const item = await this.service.getOne({ where: { id: this.contract.id } });
+    return this.contract;
+  }
 
-    item?.set({
-      status: Status.BREAKUP,
-      lastContact: new Date().getTime(),
-    });
-
-    return item;
+  goToPrevState(): Contract {
+    this.contract.status = Status.FIRST_FOLLOW_UP;
+    this.contract.lastContact = new Date().getTime();
+    return this.contract;
   }
 }
 
@@ -158,41 +133,34 @@ class Breakup extends State {
     this.contract = contract;
   }
 
-  async goToNextState(): Promise<ContractRepository | null> {
-    throw new Error("The state Breakup don`t have next state.");
+  goToNextState(): Contract {
+    return this.contract;
+  }
+
+  goToPrevState(): Contract {
+    this.contract.status = Status.SECOND_FOLLOW_UP;
+    return this.contract;
   }
 }
 
-export class StateFactory {
-  state: State;
+export function StateFactory(contract: Contract): State {
+  switch (contract.status) {
+    case Status.REGULAR:
+      return new Regular(contract);
 
-  constructor(contract: Contract) {
-    switch (contract.status) {
-      case Status.REGULAR:
-        this.state = new Regular(contract);
-        return;
-      case Status.AROUSE_INTEREST:
-        this.state = new ArouseInterest(contract);
+    case Status.AROUSE_INTEREST:
+      return new ArouseInterest(contract);
 
-        return;
-      case Status.BREAKUP:
-        this.state = new Breakup(contract);
-        return;
+    case Status.BREAKUP:
+      return new Breakup(contract);
 
-      case Status.FIRST_FOLLOW_UP:
-        this.state = new FirstFollowUp(contract);
-        return;
+    case Status.FIRST_FOLLOW_UP:
+      return new FirstFollowUp(contract);
 
-      case Status.SECOND_FOLLOW_UP:
-        this.state = new SecondFollowUp(contract);
-        return;
+    case Status.SECOND_FOLLOW_UP:
+      return new SecondFollowUp(contract);
 
-      default:
-        this.state = new Regular(contract);
-    }
-  }
-
-  get() {
-    return this.state;
+    default:
+      return new Regular(contract);
   }
 }

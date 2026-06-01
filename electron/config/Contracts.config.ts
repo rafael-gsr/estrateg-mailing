@@ -78,8 +78,8 @@ export class ContractHandlerConfig {
   }
 
   private nextState() {
-    onHandle("nextState", async (event: IpcMainInvokeEvent, id: string) => {
-      console.log("nextState", event);
+    onHandle("nextState", async (_: IpcMainInvokeEvent, id: string) => {
+      console.log("nextStageID: ", id);
       const response = await this.controller.nextState(id);
       return response;
     });

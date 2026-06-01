@@ -8,10 +8,11 @@
 }
 
 @keyframes grow {
-  from {
-    transform: scale(0.5);
+  0% {
+    transform: scale(0);
   }
-  to {
+
+  100% {
     transform: scale(1);
   }
 }
@@ -33,12 +34,11 @@
   backdrop-filter: blur(6px);
   background-color: rgba(0, 0, 0, 0.5);
 
-  animation: smoothTransition 0.4s ease-in-out;
+  animation: smoothTransition 0.1s ease-in-out;
 
   &__frame {
     background-color: var(--background);
 
-    width: 70%;
     height: fit-content;
 
     border-radius: 16px;
@@ -50,6 +50,21 @@
     flex-direction: column;
     gap: 24px;
 
-    animation: grow 0.2s ease-in-out;
+    animation: grow 0.1s ease-in-out;
+
+    &__size_SM {
+      width: 30%;
+      max-width: 768px;
+    }
+
+    &__size_MD {
+      width: 70%;
+      max-width: 1024px;
+    }
+
+    &__size_LG {
+      width: 100%;
+      max-width: 1440px;
+    }
   }
 }

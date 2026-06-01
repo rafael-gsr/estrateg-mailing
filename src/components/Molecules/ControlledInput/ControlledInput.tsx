@@ -1,7 +1,7 @@
-import { TextField } from '@mui/material'
-import { Control, Controller } from 'react-hook-form'
-import { ContractFields } from '../../Organisms/CreateEditContract/CreateEditContract.utils'
-import { ChangeEvent } from 'react'
+import { TextField } from "@mui/material";
+import { Control, Controller } from "react-hook-form";
+import { ContractFields } from "../../Organisms/CreateEditContract/CreateEditContract.utils";
+import { ChangeEvent } from "react";
 
 const ControlledInput = ({
   control,
@@ -9,13 +9,13 @@ const ControlledInput = ({
   label,
   formatter,
 }: {
-  control: Control<ContractFields>
-  label: string
-  name: keyof ContractFields
-  formatter?: (elementToFormat: string | undefined) => string
+  control: Control<ContractFields>;
+  label: string;
+  name: keyof ContractFields;
+  formatter?: (elementToFormat: string | undefined) => string;
 }) => {
   const handleChangeFunction = (
-    field: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    field: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     if (formatter) {
       return {
@@ -24,10 +24,10 @@ const ControlledInput = ({
           ...field.target,
           value: formatter(field.target.value),
         },
-      }
+      };
     }
-    return field
-  }
+    return field;
+  };
 
   return (
     <Controller
@@ -44,15 +44,15 @@ const ControlledInput = ({
           onChange={(newValue) => onChange(handleChangeFunction(newValue))}
           error={!!errors[name]?.message}
           helperText={errors[name]?.message}
-          value={value}
+          value={value || ""}
           label={label}
-          variant='outlined'
+          variant="outlined"
           disabled={disabled}
-          color='primary'
+          color="primary"
         />
       )}
     />
-  )
-}
+  );
+};
 
-export default ControlledInput
+export default ControlledInput;

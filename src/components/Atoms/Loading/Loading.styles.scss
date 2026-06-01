@@ -1,0 +1,34 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(180deg);
+  }
+
+  75% {
+    transform: rotate(270deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading_loop {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  margin: 0 auto;
+
+  &__icon {
+    display: flex;
+    animation-name: spin;
+    animation-duration: 0.8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-direction: reverse;
+  }
+}

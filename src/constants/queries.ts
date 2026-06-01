@@ -1,0 +1,3 @@
+export enum QUERIES {
+  GET_CONTRACTS = "GET_CONTRACTS",
+}

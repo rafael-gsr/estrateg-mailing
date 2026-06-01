@@ -102,4 +102,4 @@ class ContractService {
   }
 }
 
-export default new ContractService() as ContractService;
+export default ContractService;

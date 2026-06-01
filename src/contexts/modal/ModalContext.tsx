@@ -10,7 +10,8 @@ import SecondFollowUp from "src/modals/SecondFollowUp/SecondFollowUp";
 import Breackup from "src/modals/Breackup/Breackup";
 import Renew from "src/modals/Renew/Renew";
 import Relapsed from "src/modals/Relapsed/Relapsed";
-import { IModalComponent, ModalData } from "./modalContext.types";
+import { IModalComponent } from "./modalContext.types";
+import { Contract } from "types";
 
 const MODALS: Record<string, IModalComponent> = {
   CREATE: Create,
@@ -27,23 +28,32 @@ const MODALS: Record<string, IModalComponent> = {
 export type MODAL_TYPES = keyof typeof MODALS;
 
 interface ModalContext {
-  open: (type: MODAL_TYPES, modalData: ModalData | undefined) => void;
+  open: (type: MODAL_TYPES, modalData: Contract | undefined) => void;
   close: () => void;
   Modal: ReactElement;
-  modalData: ModalData | undefined;
+  modalData: Contract | undefined;
 }
 
 export const useModalContext = create<ModalContext>((set) => ({
   modalData: undefined,
+
   Modal: <></>,
+
   open: (type, modalData) =>
-    set((context) => ({
-      Modal: MODALS[type]({ close: context.close }),
-      modalData,
-    })),
+    set((context) => {
+      const Component = MODALS[type];
+
+      return {
+        ...context,
+        Modal: <Component close={context.close} contract={modalData} />,
+        modalData,
+      };
+    }),
+
   close: () =>
-    set({
+    set((context) => ({
+      ...context,
       Modal: <></>,
       modalData: undefined,
-    }),
+    })),
 }));
