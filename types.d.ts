@@ -21,10 +21,10 @@ type Contract = {
   phone: string;
   dueDate: number;
   status: string;
-  lastContact: string;
+  lastContact: string | number;
   observations?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: string | number;
+  updatedAt?: string | number;
 };
 
 type ElectronMethodsKeys = keyof ElectronMethods;
